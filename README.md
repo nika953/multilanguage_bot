@@ -5,13 +5,13 @@
 ### Предварительные требования
 Убедитесь, что у Вас установлены:
 - Python 3.8.0
-- Rasa 3.1
 - <details>
     <summary>Необходимые библиотеки</summary>
 	  
   - websockets==10.0
   - googletrans==3.1.0a0
   - transformers==4.38.2
+  - rasa==3.1.0
 	</details>
 
 ## Установка
