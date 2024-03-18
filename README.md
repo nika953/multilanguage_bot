@@ -41,7 +41,7 @@
 3. Установка зависимостей
  	> Уствновите все необходимые зависимости с помощью файла '_requirements.txt_', который находится в корне проекта:
 	```bash
-    pip install -r requirements.txt
+    pip install -r requirements.txt --no-cache-dir
 	```
 ## Запуск в режиме консоли:
 ```bash
