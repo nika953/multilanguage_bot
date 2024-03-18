@@ -17,7 +17,7 @@
 ## Установка
 1. Склонируйте репозиторий
 	```bash
-	git clone 
+	git clone https://github.com/nika953/multilanguage_bot.git
 	```
 2. Создание и активация виртуального окружения venv.
 
