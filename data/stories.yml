@@ -1,0 +1,17 @@
+version: "3.1"
+
+#stories:
+#  - story: User greets bot
+#    steps:
+#      - intent: greet
+#      - action: action_get_translated_response
+
+#  - story: User asks how the bot is doing
+#    steps:
+#      - intent: ask_how_are_you
+#      - action: action_get_translated_response
+#
+#  - story: User asks what the bot is doing
+#    steps:
+#      - intent: ask_what_are_you_doing
+#      - action: action_get_translated_response

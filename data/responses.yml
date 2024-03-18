@@ -1,0 +1,15 @@
+version: "3.1"
+responses:
+
+  utter_greet:
+    - text: "Hey! How are you?"
+
+  utter_ask_how_are_you:
+    - text: "I am fine!"
+
+  utter_ask_what_are_you_doing:
+    - text: "I'm work"
+
+  utter_goodbye:
+    - text: "Bye"
+

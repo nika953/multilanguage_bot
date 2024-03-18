@@ -1,0 +1,108 @@
+recipe: default.v1
+
+assistant_id: 20240315-143500-brownian-ownership
+language: "en"
+
+pipeline:
+  - name: "WhitespaceTokenizer"
+  - name: "CountVectorsFeaturizer"
+  - name: "CountVectorsFeaturizer"
+    analyzer: char_wb
+    min_ngram: 1
+    max_ngram: 4
+
+  - name: "RegexFeaturizer"
+    case_sensitive: False
+  - name: "RegexEntityExtractor"
+    case_sensitive: False
+    use_lookup_tables: True
+  
+  - name: "CRFEntityExtractor"
+    "BILOU_flag": True
+    "features": [
+     ["low", "title", "upper"],
+     [
+       "bias",
+       "low",
+       "prefix5",
+       "prefix2",
+       "suffix5",
+       "suffix3",
+       "suffix2",
+       "upper",
+       "title",
+       "digit",
+       "pattern",
+       "text_dense_features"
+     ],
+     ["low", "title", "upper"]
+   ]
+ 
+  - name: "LexicalSyntacticFeaturizer"
+  - name: "EntitySynonymMapper"
+
+  - name: "DIETClassifier"
+    epochs: 200
+    num_transformer_layers: 4
+    transformer_size: 256
+    use_masked_language_model: true
+    drop_rate: 0.25
+    weight_sparsity: 0.7
+    batch_size: [64, 256]
+    embedding_dimension: 120
+    hidden_layer_sizes:
+     text: [512, 128]
+    entity_recognition: False
+    model_confidence: softmax
+    constrain_similarities: true
+
+  - name: "LanguageModelFeaturizer"
+    model_name: bert
+    model_weights: rasa/LaBSE
+    cache_dir: null
+    use_cache: null
+  
+  - name: "ResponseSelector"
+    epochs: 100
+    constrain_similarities: true
+  
+  - name: "FallbackClassifier"
+    threshold: 0.3
+    ambiguity_threshold: 0.1
+
+#  Other components
+#  - name: "ResponseSelector"
+#    epochs: 100
+#    retrieval_intent: affirm
+#    constrain_similarities: true
+#  - name: "ResponseSelector"
+#    epochs: 100
+#    retrieval_intent: deny
+#    constrain_similarities: true
+#  - name: "ResponseSelector"
+#    epochs: 100
+#    retrieval_intent: question
+#    constrain_similarities: true
+#  - name: "ResponseSelector"
+#    epochs: 100
+#    retrieval_intent: second_question
+#    constrain_similarities: true
+
+policies:
+   - name: "MemoizationPolicy"
+     max_history: 5
+   - name: "RulePolicy"
+     core_fallback_threshold: 0.3    # Когда политики не могут предсказать следующее действие, действие поддержки
+     core_fallback_action_name: "action_default_fallback"
+     enable_fallback_prediction: true
+     restrict_rules: true
+     check_for_contradictions: true  # Проверьте согласованность слотов и активных петель в правилах перед обучением
+ 
+   - name: "TEDPolicy"
+     max_history: 15
+     epochs: 100
+     constrain_similarities: true
+   - name: "UnexpecTEDIntentPolicy"
+     max_history: 5
+     epochs: 100
+
